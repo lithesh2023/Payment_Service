@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug",
+            "args": [
+                "${workspaceRoot}/src/main.ts"
+            ],
+            "runtimeArgs": [
+                "--nolazy",
+                "-r",
+                "ts-node/register",
+                "-r",
+                "tsconfig-paths/register"
+            ],
+            "env": {
+                "NODE_CONFIG_ENV": "default"
+            },
+            "sourceMaps": true,
+            "cwd": "${workspaceRoot}",
+            "outputCapture": "std"
+        }
+    ]
+}

@@ -1,3 +1,5 @@
 export class PaymentRequest {
-    amount: number;
+    bookingId: number;
+    paymentAmount: number;
+    paymentMethod: number;
 }

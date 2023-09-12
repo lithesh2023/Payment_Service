@@ -26,6 +26,16 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+## Create new Nest Js Project
+
+$ npm i -g @nestjs/cli
+$ nest new project-name
+
+## Adding typeorm, postgress and nestjs common
+
+npm install @nestjs/common
+npm install typeorm @nestjs/typeorm pg
+
 ## Installation
 
 ```bash
