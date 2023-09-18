@@ -1,17 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { PaymentRequest } from '../model';
 import { Payment } from '../entities';
-import { EntityManager } from 'typeorm';
-import { InjectEntityManager } from '@nestjs/typeorm';
+import { EntityManager, Repository } from 'typeorm';
+import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class PaymentService {
 
   @InjectEntityManager()
   private readonly entityManager : EntityManager;
+  @InjectRepository(Payment)
+  private readonly paymentRepository : Repository<Payment>;
 
-  getPaymentInfo(id: string): any {
-    return {"paymentId" : id, "amount": 100.00, "status": "SUCCESS", "paymentDate": "08/10/2023"};
+  public async getPaymentInfo(bookingId: number) {
+    return this.paymentRepository.findBy({bookingId});
   }
 
   public async submitPayment(req: PaymentRequest) {

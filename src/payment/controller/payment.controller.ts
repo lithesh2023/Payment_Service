@@ -2,16 +2,17 @@ import { Controller, Get, Post, Param, Body } from '@nestjs/common';
 import{ApiTags, 
   ApiOperation, ApiHeaders, 
   ApiDefaultResponse, ApiOkResponse,
-ApiParam, ApiQuery} from '@nestjs/swagger'
+ApiParam, ApiNotAcceptableResponse, ApiNotFoundResponse} from '@nestjs/swagger'
 import { PaymentService } from '../service';
 import { PaymentRequest } from '../model';
+import { Payment } from '../entities';
 
 @Controller()
 @ApiTags('Payment_Service')
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}
 
-  @Get('/payment/:id')
+  @Get('/payment/:bookingId')
   @ApiOperation(
     {description: 'This Api resource will get the payment data for given payment id'}
   )
@@ -19,15 +20,64 @@ export class PaymentController {
     {
       name: 'Authorization',
       description: 'Authorization Token',
-      required: true,
+      required: false,
     }
   ]
   )
-  getPaymentInfo(
-    @Param() params
-  ): any {
-    return this.paymentService.getPaymentInfo(params.id);
+  @ApiDefaultResponse({
+    status: 200,
+    description: 'success',
+    type: [Payment],
   }
+  )
+  @ApiOkResponse({
+    status: 200,
+    description: 'success',
+    schema: {
+      example: [
+        {
+            "paymentId": 1,
+            "bookingId": 1,
+            "paymentStatus": "SUCCESS",
+            "paymentAmount": 40,
+            "paymentMethod": 1,
+            "createdDt": "2023-09-12T11:32:46.514Z",
+            "createdBy": "user1",
+            "modifiedDt": "2023-09-12T11:32:46.514Z",
+            "modifiedBy": "user1"
+        },
+        {
+            "paymentId": 2,
+            "bookingId": 1,
+            "paymentStatus": "SUCCESS",
+            "paymentAmount": 30,
+            "paymentMethod": 2,
+            "createdDt": "2023-09-12T11:50:27.333Z",
+            "createdBy": "user1",
+            "modifiedDt": "2023-09-12T11:50:27.333Z",
+            "modifiedBy": "user1"
+        }
+    ]
+    }
+  }
+  )
+  @ApiNotAcceptableResponse({
+    status: 500,
+    description: 'error'
+  }
+  )
+  @ApiNotFoundResponse({
+    status: 404,
+    description: 'Data not found'
+  }
+  )
+  @ApiParam({ name: 'bookingId', type: Number })
+  public async getPaymentInfo(
+   @Param("bookingId") bookingId: number,
+  ) {
+    return this.paymentService.getPaymentInfo(bookingId);
+  }
+
 
   @Post('/payment')
   @ApiOperation(
@@ -37,13 +87,37 @@ export class PaymentController {
     {
       name: 'Authorization',
       description: 'Authorization Token',
-      required: true,
+      required: false,
     }
   ]
   )
-  submitPayment(
+  @ApiDefaultResponse({
+    status: 200,
+    description: 'success',
+    type: String,
+  }
+  )
+  @ApiOkResponse({
+    status: 200,
+    description: 'success',
+    schema: {
+      example: {"status":"Success"}
+    }
+  }
+  )
+  @ApiNotAcceptableResponse({
+    status: 500,
+    description: 'error'
+  }
+  )
+  @ApiNotFoundResponse({
+    status: 404,
+    description: 'Data not found'
+  }
+  )
+  public async submitPayment(
     @Body() req: PaymentRequest
-  ): any {
+  ) {
     return this.paymentService.submitPayment(req);
   }
 }
