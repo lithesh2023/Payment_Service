@@ -33,8 +33,12 @@ $ nest new project-name
 
 ## Adding typeorm, postgress and nestjs common
 
-npm install @nestjs/common
-npm install typeorm @nestjs/typeorm pg
+$ npm install @nestjs/common
+$ npm install typeorm @nestjs/typeorm pg
+
+## Adding config
+
+$ npm install config
 
 ## Installation
 

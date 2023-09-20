@@ -3,17 +3,19 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PaymentModule } from './payment/payment.module';
 import {TypeOrmModule} from '@nestjs/typeorm';
+import * as config from 'config';
 import { Address, AddressHistory, Booking, BookingHistory, ParkingSlot, Payment, PaymentHistory, Role, User, UserHistory, UserRole, UserRoleHistory, VehicleDetail } from './payment/entities';
 
 @Module({
-  imports: [PaymentModule,
+  imports: [
+    PaymentModule,
     TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'postgres',
-      database: 'postgres',
+      type: config.get('db.type'),
+      host: config.get('db.host'),
+      port: config.get('db.port'),
+      username: config.get('db.username'),
+      password: config.get('db.password'),
+      database: config.get('db.database'),
       retryAttempts: 3,
       retryDelay: 1000,
       entities: [
