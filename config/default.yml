@@ -1,5 +1,7 @@
 app:
   port: 3000
+jwt:
+  secret: car_parking_booking_secret
 db:
   host: localhost
   port: 5432

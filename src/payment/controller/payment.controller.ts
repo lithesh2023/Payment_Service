@@ -6,6 +6,7 @@ ApiParam, ApiNotAcceptableResponse, ApiNotFoundResponse} from '@nestjs/swagger'
 import { PaymentService } from '../service';
 import { PaymentRequest } from '../model';
 import { Payment } from '../entities';
+import { CurrentUser } from '../../common/decorator';
 
 @Controller()
 @ApiTags('Payment_Service')
@@ -20,7 +21,7 @@ export class PaymentController {
     {
       name: 'Authorization',
       description: 'Authorization Token',
-      required: false,
+      required: true,
     }
   ]
   )
@@ -73,7 +74,8 @@ export class PaymentController {
   )
   @ApiParam({ name: 'bookingId', type: Number })
   public async getPaymentInfo(
-   @Param("bookingId") bookingId: number,
+    @CurrentUser() currentUser: any,
+    @Param("bookingId") bookingId: number,
   ) {
     return this.paymentService.getPaymentInfo(bookingId);
   }
@@ -87,7 +89,7 @@ export class PaymentController {
     {
       name: 'Authorization',
       description: 'Authorization Token',
-      required: false,
+      required: true,
     }
   ]
   )
@@ -116,6 +118,7 @@ export class PaymentController {
   }
   )
   public async submitPayment(
+    @CurrentUser() currentUser: any,
     @Body() req: PaymentRequest
   ) {
     return this.paymentService.submitPayment(req);

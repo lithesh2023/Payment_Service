@@ -40,6 +40,10 @@ $ npm install typeorm @nestjs/typeorm pg
 
 $ npm install config
 
+## Adding config
+
+$ npm install jsonwebtoken
+
 ## Installation
 
 ```bash
